@@ -18,8 +18,6 @@ RUN python -m pip install -r requirements.txt
 
 COPY . /app
 
-RUN chown -R basicuser:basicgroup /app
-
 USER basicuser
 
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
