@@ -7,8 +7,8 @@ ENV PYTHONDONTWRITEBYTECODE=1
 # Turns off buffering for easier container logging
 ENV PYTHONUNBUFFERED=1
 
-RUN groupadd -r -g 1000 basicuser && \
-    useradd -r -u 1000 -g basicuser basicuser
+RUN groupadd -r -g 1000 basicgroup && \
+    useradd -r -u 1000 -g basicgroup basicuser
 
 WORKDIR /app
 
@@ -18,7 +18,7 @@ RUN python -m pip install -r requirements.txt
 
 COPY . /app
 
-RUN chown -R basicuser:basicuser /app
+RUN chown -R basicuser:basicgroup /app
 
 USER basicuser
 
