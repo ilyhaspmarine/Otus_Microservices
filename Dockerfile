@@ -7,6 +7,9 @@ ENV PYTHONDONTWRITEBYTECODE=1
 # Turns off buffering for easier container logging
 ENV PYTHONUNBUFFERED=1
 
+RUN groupadd -r -g 1000 basicuser && \
+    useradd -r -u 1000 -g basicuser basicuser
+
 WORKDIR /app
 
 # Install pip requirements
@@ -15,6 +18,8 @@ RUN python -m pip install -r requirements.txt
 
 COPY . /app
 
-# EXPOSE 8000
+RUN chown -R basicuser:basicuser /app
+
+USER basicuser
 
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
