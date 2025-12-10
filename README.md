@@ -28,19 +28,19 @@ RESPONSE: {"status": "OK"}
 В Ingress-е должно быть правило, которое форвардит все запросы с /otusapp/{student name}/* на сервис с rewrite-ом пути. Где {student name} - это имя студента.
 Например: curl arch.homework/otusapp/aeugene/health -> рерайт пути на arch.homework/health
 
-### Решение
+### Как запустить
 #### Шаги 1 и 2 выполнены в рамках предыдущего ДЗ
 #### в /etc/hosts прописываем
 ```
 127.0.0.1 arch.homework 
 ```
 
-#### запускаем docker
+#### Запускаем docker
 ```
 любым вариантом, у меня docker desktop с виртуализацией VT-d
 ```
 
-#### запускаем minikube
+#### Запускаем minikube
 ```
 minikube start --driver=docker
 ```
@@ -73,8 +73,13 @@ kubectl apply -f .
 minikube tunnel
 ```
 
-#### проверяем
+#### Проверяем базу
 ```
 curl http://arch.homework/health/
 curl http://arch.homework/health
+```
+#### С Rewrite'ом
+```
+curl arch.homework/otusapp/aeugene/health
+curl arch.homework/otusapp/aeugene/health/
 ```

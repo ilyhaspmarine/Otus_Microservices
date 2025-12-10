@@ -42,6 +42,47 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "rewrite1",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "arch.homework/otusapp/aeugene/health",
+					"host": [
+						"arch",
+						"homework"
+					],
+					"path": [
+						"otusapp",
+						"aeugene",
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "rewrite2",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "arch.homework/otusapp/aeugene/health/",
+					"host": [
+						"arch",
+						"homework"
+					],
+					"path": [
+						"otusapp",
+						"aeugene",
+						"health",
+						""
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
