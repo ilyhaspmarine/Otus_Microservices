@@ -1,0 +1,28 @@
+{
+	"info": {
+		"_postman_id": "80de9f47-0107-4177-a8f6-7ef5eaa4f828",
+		"name": "Otus_Microservices_HW3_TestCollection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "9701531"
+	},
+	"item": [
+		{
+			"name": "health",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "arch.homework/health",
+					"host": [
+						"arch",
+						"homework"
+					],
+					"path": [
+						"health"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
