@@ -23,6 +23,25 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "health/",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "arch.homework/health/",
+					"host": [
+						"arch",
+						"homework"
+					],
+					"path": [
+						"health",
+						""
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
