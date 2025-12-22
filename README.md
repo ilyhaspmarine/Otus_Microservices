@@ -54,8 +54,8 @@ kubectl apply -f ./kuber/users_configmap.yaml
 #### Устанавливаем БД в кластер. Пароль для пользователя будет взят из секрета
 ```
 helm install users-postgresql -f ./postgre/db-values.yaml oci://registry-1.docker.io/bitnamicharts/postgresql
-Дождаться установки БД
 ```
+Дождаться установки БД
 
 #### Запускаем начальную миграцию
 ```
@@ -65,8 +65,8 @@ kubectl apply -f ./kuber/job-migr.yaml
 #### Проверяем успех миграции
 ```
 kubectl get job
-Job-а с именем run-migrations должна быть в статусе "Complete" - ждем этот статус
 ```
+Job-а с именем run-migrations должна быть в статусе "Complete" - ждем этот статус
 
 #### Применяем манифесты для деплоя приложухи
 ```
@@ -81,6 +81,8 @@ minikube tunnel
 #### Проверяем health-check (в новом окне терминала)
 ```
 curl http://arch.homework/health/
+```
+```
 curl http://arch.homework/health
 ```
 
@@ -94,13 +96,19 @@ newman run ./postman/hw4_collection.json
 #### Сносим ingress, service, deployment
 ```
 kubectl delete ingress users-ingress
+```
+```
 kubectl delete service users-service
+```
+```
 kubectl delete deployment users-app 
 ```
 
 #### Сносим configmap и secret
 ```
 kubectl delete configmap users-config
+```
+```
 kubectl delete secret users-db-secret
 ```
 
@@ -122,7 +130,9 @@ kubectl delete pvc -l app.kubernetes.io/name=postgresql,app.kubernetes.io/instan
 #### Сносим PV, оставшиеся от БД (если reclaimPolicy: Retain)
 ```
 kubectl get pv
+```
 Смотрим вывод, узнаем <имя PV> (к сожалению, меток у него не будет - я проверил)
+```
 kubectl delete pv <имя PV>
 ```
 
