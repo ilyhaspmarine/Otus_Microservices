@@ -84,8 +84,7 @@ curl http://arch.homework/health
 newman run ./postman/hw4_collection.json
 ```
 
-
-### КАК УДАЛИТЬ (HELMLESS)
+### КАК УДАЛИТЬ
 #### Сносим ingress, service, deployment
 ```
 helm uninstall <имя релиза>
