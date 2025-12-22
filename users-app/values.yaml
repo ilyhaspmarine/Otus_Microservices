@@ -48,6 +48,5 @@ postgresql:
   architecture: "standalone"
 
 configMap:
-  name: users-config
   driver_sync: "psycopg2"
   driver_async: "asyncpg"

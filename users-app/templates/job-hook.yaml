@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: job-migrations
+  name: "{{ .Release.Name }}-job-migrations"
   annotations:
     "helm.sh/hook": post-install, post-upgrade
     "helm.sh/hook-weight": "-5"
@@ -17,17 +17,17 @@ spec:
         - name: DB_DRIVER_SYNC
           valueFrom:
             configMapKeyRef:
-              name: {{ .Values.configMap.name }} 
+              name: {{ include "users-app.configMapName" . | quote }}
               key: DB_DRIVER_SYNC 
         - name: DB_PORT
           valueFrom:
             configMapKeyRef:
-              name: {{ .Values.configMap.name }} 
+              name: {{ include "users-app.configMapName" . | quote }}
               key: DB_PORT           
         - name: DB_HOST
           valueFrom:
             configMapKeyRef:
-              name: {{ .Values.configMap.name }} 
+              name: {{ include "users-app.configMapName" . | quote }}
               key: DB_HOST   
         - name: DB_USER
           valueFrom:

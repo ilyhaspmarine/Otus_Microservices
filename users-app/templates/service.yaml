@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: users-service
+  name: {{ include "users-app.serviceName" . | quote }}
   labels:
-    app: users-app
+    app: {{ include "users-app.appName" . | quote }}
 spec:
   selector:
-    app: users-app
+    app: {{ include "users-app.appName" . | quote }}
   ports:
     - protocol: TCP
       port: {{ int .Values.service.port }}

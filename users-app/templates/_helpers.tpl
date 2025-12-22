@@ -73,3 +73,35 @@ Create the name of the service account to use
 {{- printf "%s-%s" $releaseName "postgresql" -}} {{/* Значение по умолчанию, если nameOverride не задан */}}
 {{- end -}}
 {{- end }}
+
+{{/*
+Формирует имя configMap используя Release.Name и константу
+*/}}
+{{- define "users-app.configMapName" -}}
+{{- $releaseName := .Release.Name -}}
+{{- printf "%s-%s" $releaseName "config" -}}
+{{- end }}
+
+{{/*
+Формирует имя ingress используя Release.Name и константу
+*/}}
+{{- define "users-app.ingressName" -}}
+{{- $releaseName := .Release.Name -}}
+{{- printf "%s-%s" $releaseName "ingress" -}}
+{{- end }}
+
+{{/*
+Формирует имя service используя Release.Name и константу
+*/}}
+{{- define "users-app.serviceName" -}}
+{{- $releaseName := .Release.Name -}}
+{{- printf "%s-%s" $releaseName "service" -}}
+{{- end }}
+
+{{/*
+Формирует имя app используя Release.Name и константу
+*/}}
+{{- define "users-app.appName" -}}
+{{- $releaseName := .Release.Name -}}
+{{- printf "%s-%s" $releaseName "app" -}}
+{{- end }}
