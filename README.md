@@ -20,7 +20,7 @@
 
 #### Добавить шаблонизацию приложения в helm чартах
 
-
+## HELM
 ### КАК РАЗВЕРНУТЬ
 #### в /etc/hosts прописываем
 ```
@@ -46,7 +46,98 @@ minikube start --driver=docker
 kubectl apply -f ./secret/secret.yaml
 ```
 
-#### Также закидываем в кластер configmap (она нужна для начальной миграции)
+#### Переходим в директорию с чартом
+```
+cd ./users-app
+```
+
+#### Качаем зависимости
+```
+helm dependency update
+```
+
+#### Возвращаемся в корень
+```
+cd ../
+```
+
+#### Ставимся и ждем, пока установка закончится
+```
+helm install <имя релиза> users-app
+```
+
+#### Включаем (и не закрываем терминал)
+```
+minikube tunnel
+```
+
+#### Проверяем health-check (в новом окне терминала)
+```
+curl http://arch.homework/health/
+```
+```
+curl http://arch.homework/health
+```
+
+#### Запускаем тест-коллекцию (корректно сработает только при первом запуске с чистой БД, т.к. ID пользователей генерируются автоинкрементом)
+```
+newman run ./postman/hw4_collection.json
+```
+
+
+### КАК УДАЛИТЬ (HELMLESS)
+#### Сносим ingress, service, deployment
+```
+helm uninstall <имя релиза>
+```
+
+#### Сносим secret
+```
+kubectl delete secret users-db-secret
+```
+
+#### Сносим PVC, оставшиеся от БД
+```
+kubectl delete pvc -l app.kubernetes.io/name=users-postgresql,app.kubernetes.io/instance=<имя релиза>
+```
+
+#### Сносим PV, оставшиеся от БД (если reclaimPolicy: Retain)
+```
+kubectl get pv
+```
+Смотрим вывод, узнаем <имя PV> (к сожалению, меток у него не будет - я проверил)
+```
+kubectl delete pv <имя PV>
+```
+#### Готово!
+
+## HELMLESS
+### КАК РАЗВЕРНУТЬ
+#### в /etc/hosts прописываем
+```
+127.0.0.1 arch.homework 
+```
+
+#### Запускаем docker
+```
+любым вариантом, у меня docker desktop с виртуализацией VT-d
+```
+
+#### Запускаем minikube
+```
+minikube start --driver=docker
+```
+
+#### Далее предполагается, что мы находимся в папке с приложением
+#### Также предполагается, что контроллер nginx с прошлого ДЗ из кластера никуда не делся
+#### Сборку докер-образа также не описываю - образ залит на dockerhub
+
+#### "Внешняя" поставка секрета в кластер
+```
+kubectl apply -f ./secret/secret.yaml
+```
+
+#### Закидываем в кластер configmap (она нужна для начальной миграции)
 ```
 kubectl apply -f ./kuber/users_configmap.yaml
 ```
@@ -91,7 +182,6 @@ curl http://arch.homework/health
 newman run ./postman/hw4_collection.json
 ```
 
-
 ### КАК УДАЛИТЬ
 #### Сносим ingress, service, deployment
 ```
@@ -135,5 +225,4 @@ kubectl get pv
 ```
 kubectl delete pv <имя PV>
 ```
-
 #### Готово!
