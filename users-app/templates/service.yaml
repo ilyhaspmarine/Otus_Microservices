@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: users-service
+  labels:
+    app: users-app
+spec:
+  selector:
+    app: users-app
+  ports:
+    - protocol: TCP
+      port: {{ int .Values.service.port }}
+      targetPort: 8000
+  type: {{ .Values.service.type }}

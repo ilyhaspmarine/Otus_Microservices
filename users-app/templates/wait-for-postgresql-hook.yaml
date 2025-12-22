@@ -1,0 +1,27 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: job-wait-posrgresql
+  annotations:
+    "helm.sh/hook": post-install, post-upgrade
+    "helm.sh/hook-weight": "-10"
+    "helm.sh/hook-delete-policy": before-hook-creation, hook-succeeded, hook-failed
+spec:
+  template:
+    spec:
+      containers:
+      - name: wait
+        image: bitnami/kubectl:latest
+        command:
+        - /bin/sh
+        - -c
+        # Ждём, пока StatefulSet PostgreSQL не будет готов (АДОВЫЙ КОСТЫЛЬ)
+        # Имя StatefulSet: <release-name>-<nameOverride> (если используется nameOverride)
+        # Или <release-name>-postgresql (по умолчанию)
+        - |
+          export POSTGRES_STATEFULSET_NAME="{{ include "users-app.dbhost" . }}"
+          echo "Waiting for PostgreSQL $POSTGRES_STATEFULSET_NAME to be ready..."
+          kubectl wait --for=condition=Ready pod -l app.kubernetes.io/instance={{ .Release.Name }},app.kubernetes.io/name=postgresql --timeout=300s
+          echo "PostgreSQL is ready!"
+      restartPolicy: Never  # Не перезапускать контейнер, если он завершился (даже с ошибкой)
+  backoffLimit: 4  # Максимальное количество попыток, если Job завершается с ошибкой
