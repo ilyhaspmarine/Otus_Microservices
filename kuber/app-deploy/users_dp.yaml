@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: users-app
+  labels:
+    app: users-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: users-app
+  template:
+    metadata:
+      labels:
+        app: users-app
+    spec:
+      containers:
+        - name: users-app
+          image: comrademaper/zis_otus_hw4:latest 
+          ports:
+            - containerPort: 8000
+          env:
+          - name: DB_DRIVER_ASYNC 
+            valueFrom:
+              configMapKeyRef:
+                name: users-config 
+                key: DB_DRIVER_ASYNC        
+          - name: DB_HOST 
+            valueFrom:
+              configMapKeyRef:
+                name: users-config 
+                key: DB_HOST     
+          - name: DB_PORT 
+            valueFrom:
+              configMapKeyRef:
+                name: users-config 
+                key: DB_PORT                                             
+          - name: DB_USER
+            valueFrom:
+              secretKeyRef:
+                name: users-db-secret 
+                key: username
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: users-db-secret  
+                key: password
+          - name: DB_NAME
+            valueFrom:
+              secretKeyRef:
+                name: users-db-secret 
+                key: database  
+          livenessProbe:
+            httpGet:
+              path: /health/
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health/
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 5

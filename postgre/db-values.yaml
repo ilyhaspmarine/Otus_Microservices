@@ -1,0 +1,19 @@
+auth:
+  username: user-app
+  database: users_db
+  existingSecret: users-db-secret
+  secretKeys:
+    userPasswordKey: password
+
+primary:
+
+  service:
+    type: ClusterIP
+    port: 5432
+
+  persistence:
+    enabled: true
+    size: 2Gi
+    storageClass: standard
+
+architecture: "standalone"
