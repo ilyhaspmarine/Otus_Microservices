@@ -36,8 +36,7 @@
 
 #### Добавить в общий дашборд графики с метриками работы БД.
 
-## HELM
-### КАК РАЗВЕРНУТЬ
+### ПОДГОТОВКА
 #### в /etc/hosts прописываем
 ```
 127.0.0.1 arch.homework 
@@ -75,8 +74,7 @@ helm repo update
 helm install nginx ingress-nginx/ingress-nginx -n nginx -f ./nginx/nginx_ingress.yaml --create-namespace
 ```
 
-#### Ставим само приложение
-
+### СТАВИМ ПРИЛОЖЕНИЕ
 ##### "Внешняя" поставка секрета в кластер
 ```
 kubectl apply -f ./secret/secret.yaml
@@ -116,7 +114,7 @@ curl http://arch.homework/health
 ```
 
 
-### КАК УДАЛИТЬ
+### КАК УДАЛИТЬ ПРИЛОЖЕНИЕ
 #### Сносим чарт и БД
 ```
 helm uninstall <имя релиза>
@@ -145,4 +143,7 @@ kubectl get pv
 ```
 kubectl delete pv <имя PV>
 ```
+
+#### Удалять мониторинг и Nginx смысла как бы нет
+
 #### Готово!
